@@ -1,103 +1,210 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+import { useState, useEffect } from "react";
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+import Order from "./components/Order";
+
+const ENTER_KEY_CODE: number = 13;
+
+const STORAGE_KEY: string = 'scr-pending-orders';
+
+const HOUR_EQUIVALENT_IN_MILLISECONDS: number = 60 * 60 * 1000;
+
+export default function Page() {
+
+  const [ orders, setOrders ] = useState( [] );
+  
+  const [ filteredOrders, setFilteredOrders ] = useState( null );
+  
+  const [ metadata, setMetadata ] = useState( null );
+  
+  const [ targetedKits, setTargetedKits ] = useState( null );
+
+  const [ isLoading, setLoading ] = useState( true );
+
+  console.log(  )
+
+  function handleInputChange( event ) {
+
+    if ( event.target.value === '' ) {
+
+      setFilteredOrders( null );
+
+      setTargetedKits( null );
+
+    }
+
+  }
+
+  function handleKeyUp( event ) {
+
+    if ( event.keyCode === ENTER_KEY_CODE ) {
+
+      const kits = event.target.value.split( ',' ).filter( kit => {
+
+        if ( ! isNaN( kit ) ) return kit.trim();
+
+      } );
+
+      const result: Array<Order> = orders.filter( order => order.kits.some( kit => kits.includes( kit.sku ) ) );
+
+      setFilteredOrders( result );
+
+      setTargetedKits( kits );
+
+    }
+
+  }
+
+  useEffect( () => {
+
+    async function fetchOrders() {  
+      
+      try {
+        
+        const response = await fetch( '/api/orders' );
+
+        const data = await response.json();
+
+        setOrders( data.orders );
+
+        setMetadata( data.metadata );
+
+        localStorage.setItem( STORAGE_KEY, JSON.stringify( { 
+          
+          ...data,
+
+          savedAt: new Date()
+        
+        } ) );
+
+      } catch ( error ) {
+
+        console.log( error );
+        
+      } finally {
+
+        setLoading( false );
+
+      }
+    
+    };
+
+    const cachedOrders = JSON.parse( localStorage.getItem( STORAGE_KEY ) );
+    
+    const currentTime : Date = new Date();
+    
+    const savedAt: Date = new Date( cachedOrders?.savedAt );
+
+    const isCachedOlderThanOneHour: number | boolean = savedAt ? ( currentTime.valueOf() - savedAt.valueOf() ) > HOUR_EQUIVALENT_IN_MILLISECONDS : true;
+
+    if ( cachedOrders && ! isCachedOlderThanOneHour ) {
+
+      setLoading( true );
+      
+      setOrders( cachedOrders.orders );
+      
+      setMetadata( cachedOrders.metadata );
+
+      setLoading( false );
+
+      console.log( '====> Cached data used. <====' );
+      
+    } else {
+
+      fetchOrders();
+
+      console.log( '====> Fetched data from API <====' );
+
+    }
+
+  }, [] );
+
+  if ( isLoading ) return <div className="w-screen h-screen flex justify-center items-center">
+    
+    <svg className="w-16 h-16 animate-spin fill-green-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+      {/* <!-- !Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc. --> */}
+      <path d="M222.7 32.1c5 16.9-4.6 34.8-21.5 39.8C121.8 95.6 64 169.1 64 256c0 106 86 192 192 192s192-86 192-192c0-86.9-57.8-160.4-137.1-184.1c-16.9-5-26.6-22.9-21.5-39.8s22.9-26.6 39.8-21.5C434.9 42.1 512 140 512 256c0 141.4-114.6 256-256 256S0 397.4 0 256C0 140 77.1 42.1 182.9 10.6c16.9-5 34.8 4.6 39.8 21.5z"/>
+    </svg>
+    
     </div>
-  );
+
+  if ( ! orders.length ) return <p>No Orders</p>
+ 
+  return (
+
+    <div className="max-w-6xl mx-auto">
+
+      <h1 className="mt-10 mb-16 text-3xl text-center font-bold sm:text-4xl lg:text-5xl">Order Manager</h1>
+
+      <div className="p-4 bg-white text-black">
+
+        <div>
+
+          <p className="text-right text-sm font-semibold text-gray-700">Orders Count: { orders.length === metadata.total && metadata.total }</p>
+          
+        </div>
+
+        <search>
+
+          <label className="block mt-10">
+
+            <div>Filter orders by Kit SKU #</div>
+
+            <input className="w-full p-2 border rounded-md" type="search" placeholder="Enter kit SKUS separated by comas eg=152,458" 
+            
+              onKeyUp={ handleKeyUp } 
+              
+              onInput={handleInputChange} />
+
+          </label>
+
+          <div className='ml-2 mt-1 mb-10 text-sm text-gray-700 sm:mb-20'>
+            
+            <p className={ ! filteredOrders?.length ? 'hidden' : '' }>
+              
+              { filteredOrders?.length } order(s) found.
+              
+            </p>
+            
+          </div>
+
+          <ul className="sm:grid sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 lg:gap-10">
+
+            {
+
+              filteredOrders ?
+
+                (
+                  
+                  filteredOrders.length ? 
+                
+                    filteredOrders.map( order => <Order key={order.number} targetedKits={targetedKits} order={order} /> ) 
+                    
+                    : 
+                    
+                    <p>
+                      
+                      No result found for: <span>{targetedKits.join(', ')}</span>
+                      
+                    </p>
+                  
+                )
+
+                :
+
+                orders.map( order => <Order key={order.number} order={order} /> )
+
+            }
+
+          </ul>
+
+        </search>
+
+      </div>
+
+    </div>
+
+  )
+
 }

@@ -10,6 +10,9 @@
 !.yarn/releases
 !.yarn/versions
 
+#seeder data
+/public/data/*
+
 # testing
 /coverage
 
