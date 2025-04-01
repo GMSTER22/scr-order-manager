@@ -1,7 +1,14 @@
 
-import types from "./component-types"
+type Kit = {
 
-export default function Kit( { kit } : { kit: types.Kit } ) {
+  sku: number,
+
+  name: string
+
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function Kit( { kit, targetedKits } : { kit: Kit, targetedKits?: Array<number> } ) {
 
   return (
         

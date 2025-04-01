@@ -1,9 +1,39 @@
 
-import types from "./component-types";
+// import componentTypes from "./component-types";
 
 import Kit from "./Kit";
 
-export default function Order( { order, targetedKits } : { order: types.Order, targetedKits?: Array<number>  } ) {
+type Kit = {
+
+  sku: number,
+
+  name: string
+
+}
+
+type Order = {
+
+  id: string,
+
+  number: number,
+
+  createdDate: Date,
+
+  updatedDate: Date,
+
+  paymentStatus: string,
+
+  fulfillmentStatus: string,
+
+  fullname: string,
+
+  email: string,
+
+  kits: Array<Kit>
+
+}
+
+export default function Order( { order, targetedKits } : { order: Order, targetedKits?: Array<number>  } ) {
 
   const formatDate = ( date: Date ) => {
 
@@ -17,7 +47,7 @@ export default function Order( { order, targetedKits } : { order: types.Order, t
 
       day: "numeric",
 
-    };
+    } as const;
 
     return new Date( date ).toLocaleDateString( 'en-US', options );
 

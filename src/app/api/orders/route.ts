@@ -100,7 +100,7 @@ export async function GET() {
 
   do {
 
-    let cursorPaging = ! metadata?.cursors?.next ? { limit: 100 } : {
+    const cursorPaging = ! metadata?.cursors?.next ? { limit: 100 } : {
         
         cursor: metadata?.cursors?.next, 
         

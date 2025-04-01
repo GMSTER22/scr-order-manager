@@ -1,8 +1,39 @@
 'use client';
 
 import { useState, useEffect } from "react";
+// import { Kit } from "./components/component-types";
 
 import Order from "./components/Order";
+
+type Kit = {
+
+  sku: number,
+
+  name: string
+
+}
+
+type Order = {
+
+  id: string,
+
+  number: number,
+
+  createdDate: Date,
+
+  updatedDate: Date,
+
+  paymentStatus: string,
+
+  fulfillmentStatus: string,
+
+  fullname: string,
+
+  email: string,
+
+  kits: Array<Kit>
+
+}
 
 const ENTER_KEY_CODE: number = 13;
 
