@@ -1,22 +1,21 @@
 
-type Kit = {
+import { KitType } from "./component-types";
 
-  sku: number,
-
-  name: string
-
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function Kit( { kit, targetedKits } : { kit: Kit, targetedKits?: Array<number> } ) {
+export default function Kit( { kit } : { kit: KitType } ) {
 
   return (
         
     <>
 
-      <span className="text-lg font-bold">{ kit.sku }</span>
+      <div className="flex gap-x-1 items-center font-bold">
+        
+        <span className="text-lg">{ kit.sku }</span>
 
-      <span className="text-gray-600">{ kit.name }</span>
+        <span className={`flex justify-center items-center w-5 h-5 text-xs bg-gray-500 text-white rounded-full ${kit.quantity < 2 && 'hidden'}`}>{ kit.quantity }</span>
+        
+      </div>
+
+      <span className="">{ kit.name }</span>
 
     </>
     

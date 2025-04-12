@@ -1,39 +1,10 @@
 'use client';
 
 import { useState, useEffect } from "react";
-// import { Kit } from "./components/component-types";
 
 import Order from "./components/Order";
 
-type Kit = {
-
-  sku: number,
-
-  name: string
-
-}
-
-type Order = {
-
-  id: string,
-
-  number: number,
-
-  createdDate: Date,
-
-  updatedDate: Date,
-
-  paymentStatus: string,
-
-  fulfillmentStatus: string,
-
-  fullname: string,
-
-  email: string,
-
-  kits: Array<Kit>
-
-}
+import { OrderType } from "./components/component-types";
 
 const ENTER_KEY_CODE: number = 13;
 
@@ -52,8 +23,6 @@ export default function Page() {
   const [ targetedKits, setTargetedKits ] = useState( null );
 
   const [ isLoading, setLoading ] = useState( true );
-
-  console.log(  )
 
   function handleInputChange( event ) {
 
@@ -77,7 +46,7 @@ export default function Page() {
 
       } );
 
-      const result: Array<Order> = orders.filter( order => order.kits.some( kit => kits.includes( kit.sku ) ) );
+      const result: Array<OrderType> = orders.filter( order => order.kits.some( kit => kits.includes( kit.sku ) ) );
 
       setFilteredOrders( result );
 
@@ -210,7 +179,7 @@ export default function Page() {
                   
                   filteredOrders.length ? 
                 
-                    filteredOrders.map( order => <Order key={order.number} targetedKits={targetedKits} order={order} /> ) 
+                    filteredOrders.map( order => <Order key={order.id} targetedKits={targetedKits} order={order} /> ) 
                     
                     : 
                     
@@ -224,7 +193,7 @@ export default function Page() {
 
                 :
 
-                orders.map( order => <Order key={order.number} order={order} /> )
+                orders.map( order => <Order key={order.id} order={order} /> )
 
             }
 

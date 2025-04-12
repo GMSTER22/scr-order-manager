@@ -63,7 +63,7 @@ export async function GET() {
     } );
 
     const ordersData = await response.json();
-
+    
     const formattedOrdersData = ordersData.orders.map( order => {
 
       const { id, number, createdDate, updatedDate, paymentStatus, fulfillmentStatus, billingInfo, buyerInfo, lineItems } = order;
@@ -80,7 +80,9 @@ export async function GET() {
 
           sku: item.physicalProperties.sku,
 
-          name: item.productName.original
+          name: item.productName.original,
+
+          quantity: item.quantity
 
         } ) )
 

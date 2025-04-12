@@ -1,39 +1,9 @@
 
-// import componentTypes from "./component-types";
+import { OrderType } from "./component-types";
 
 import Kit from "./Kit";
 
-type Kit = {
-
-  sku: number,
-
-  name: string
-
-}
-
-type Order = {
-
-  id: string,
-
-  number: number,
-
-  createdDate: Date,
-
-  updatedDate: Date,
-
-  paymentStatus: string,
-
-  fulfillmentStatus: string,
-
-  fullname: string,
-
-  email: string,
-
-  kits: Array<Kit>
-
-}
-
-export default function Order( { order, targetedKits } : { order: Order, targetedKits?: Array<number>  } ) {
+export default function Order( { order, targetedKits } : { order: OrderType, targetedKits?: Array<number>  } ) {
 
   const formatDate = ( date: Date ) => {
 
@@ -55,9 +25,9 @@ export default function Order( { order, targetedKits } : { order: Order, targete
 
   return (
   
-    <li className="relative px-6 py-14 bg-neutral-200 rounded-md list-none">
+    <li className="relative px-6 py-14 border border-neutral-200 rounded-md list-none shadow-md">
 
-      <div className="absolute top-2 right-2 text-[10px] text-white">
+      <div className="absolute top-2 right-2 text-[8px] text-white">
 
         <span className="px-2 py-1 mr-1 bg-gray-500 rounded-full">{ order.paymentStatus }</span>
 
@@ -73,9 +43,9 @@ export default function Order( { order, targetedKits } : { order: Order, targete
 
       <div>
 
-        <h3 className="mb-2 text-lg font-bold text-gray-600 sm:text-xl sm:mb-4">User Info</h3>
+        <h3 className="mb-2 text-lg font-bold sm:text-xl sm:mb-4">User Info</h3>
 
-        <div className="grid grid-cols-[80px_1fr] text-gray-600">
+        <div className="grid grid-cols-[80px_1fr] gap-x-5">
           
           <span className="">Created</span>
 
@@ -83,7 +53,7 @@ export default function Order( { order, targetedKits } : { order: Order, targete
 
           <span className="">Name</span>
           
-          <span className="">{ order.fullname }</span>
+          <span className="text-black">{ order.fullname }</span>
 
           <span className="">Email</span>
           
@@ -95,17 +65,17 @@ export default function Order( { order, targetedKits } : { order: Order, targete
 
       <div className="mt-5">
 
-        <h3 className="mb-2 text-lg font-bold text-gray-600 sm:text-xl sm:mb-4">Scrapbook Kits</h3>
+        <h3 className="mb-2 text-lg font-bold sm:text-xl sm:mb-4">Scrapbook Kits</h3>
         
         <ul className="space-y-1">
 
           { 
           
-            order.kits.map( kit => 
+            order.kits.map( ( kit, index ) => 
             
-              <li key={kit.sku} className={`grid grid-cols-[80px_1fr] items-top px-1 ${ targetedKits?.includes( kit.sku ) && 'bg-yellow-100' }`}>
+              <li key={`${kit.sku}-${index}`} className={`grid grid-cols-[80px_1fr] gap-x-5 items-top px-1 ${ targetedKits?.includes( kit.sku ) && 'bg-yellow-100' }`}>
                 
-                <Kit kit={kit} targetedKits={targetedKits} />
+                <Kit kit={kit} />
                 
               </li> 
               

@@ -1,13 +1,15 @@
 
-export type Kit = {
+type KitType = {
 
   sku: number,
+
+  quantity: number,
 
   name: string
 
 }
 
-export type Order = {
+type OrderType = {
 
   id: string,
 
@@ -25,6 +27,8 @@ export type Order = {
 
   email: string,
 
-  kits: Array<Kit>
+  kits: Array<KitType>
 
 }
+
+export type { KitType, OrderType };
