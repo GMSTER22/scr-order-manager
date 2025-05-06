@@ -169,7 +169,7 @@ export default function Page() {
             
           </div>
 
-          <ul className="sm:grid sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 lg:gap-10">
+          <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
 
             {
 

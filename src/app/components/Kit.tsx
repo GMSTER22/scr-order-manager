@@ -7,7 +7,7 @@ export default function Kit( { kit } : { kit: KitType } ) {
         
     <>
 
-      <div className="flex gap-x-1 items-center font-bold">
+      <div className="self-start flex gap-x-1 items-center font-bold">
         
         <span className="text-lg">{ kit.sku }</span>
 
