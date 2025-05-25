@@ -1,4 +1,4 @@
-# 📚 Scrapbook Concierge Order Manager
+# Scrapbook Concierge Order Manager
 
 The **Scrapbook Concierge Order Manager** streamlines the order fulfillment process for Scrapbook Concierge by fetching paid, unfulfilled orders from their Wix store. The app enables filtering of orders by kit SKUs, significantly reducing the time required to process and fulfill orders (by more than 75%).
 
