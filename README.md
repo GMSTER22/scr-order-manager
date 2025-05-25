@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Scrapbook Concierge Order Manager
 
-## Getting Started
+The **Scrapbook Concierge Order Manager** streamlines the order fulfillment process for Scrapbook Concierge by fetching paid, unfulfilled orders from their Wix store. The app enables filtering of orders by kit SKUs, significantly reducing the time required to process and fulfill orders (by more than 75%).
 
-First, run the development server:
+## Features
 
-```bash
+- Fetches paid, unfulfilled orders from the Scrapbook Concierge Wix store.
+- Search and filter orders by kit SKUs through a user-friendly interface.
+- Results of fetched orders are cached temporarily in localStorage for efficiency and faster access.
+
+## Tech Stack
+
+* **Language**: TypeScript
+* **Framework**: Next.js
+* **Styling**: TailwindCSS
+* **Bundler**: Turbopack
+* **API Integration:** Wix Store API
+
+
+## 🚀 Getting Started
+### Prerequisites
+* Node.js (18 or higher recommended)
+* Yarn or npm
+
+### Environment Variables
+
+To run this project, you need to configure the following environment variables:
+
+- `API_URL`: The base URL for the Wix API.
+- `API_KEY`: The API key to authenticate requests.
+- `SITE_ID`: The identifier for the Wix site.
+
+### Installation
+
+**Clone the repository**
+```
+git clone https://github.com/GMSTER22/scr-order-manager.git
+cd scr-order-manager
+```
+
+**Install dependencies**
+```
+npm install
+# or
+yarn install
+```
+
+**Development**
+```
 npm run dev
 # or
 yarn dev
+```
+This will run the app on `http://localhost:3000`.
+
+**Build**
+```
+npm run build
 # or
-pnpm dev
-# or
-bun dev
+yarn build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📂 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    src/    
+      └── app/    
+          ├── api/    
+          |    └──  orders/
+          └── components/
+          ├── global.css
+          ├── layout.tsx
+          └── page.tsx
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## 📄 License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+© 2025 Scrapbook Concierge. All rights reserved.
