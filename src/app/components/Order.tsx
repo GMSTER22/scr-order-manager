@@ -3,7 +3,7 @@ import { OrderType } from "./component-types";
 
 import Kit from "./Kit";
 
-export default function Order( { order, targetedKits } : { order: OrderType, targetedKits?: Array<number>  } ) {
+export default function Order( { order, targetedKits } : { order: OrderType, targetedKits?: Array<string>  } ) {
 
   const formatDate = ( date: Date ) => {
 

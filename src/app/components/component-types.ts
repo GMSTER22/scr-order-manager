@@ -1,7 +1,7 @@
 
 type KitType = {
 
-  sku: number,
+  sku: string,
 
   quantity: number,
 
