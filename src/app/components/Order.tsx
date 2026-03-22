@@ -73,7 +73,7 @@ export default function Order( { order, targetedKits } : { order: OrderType, tar
           
             order.kits.map( ( kit, index ) => 
             
-              <li key={`${kit.sku}-${index}`} className={`grid grid-cols-[80px_1fr] gap-x-5 items-top px-1 ${ targetedKits?.includes( kit.sku ) && 'bg-yellow-100' }`}>
+              <li key={`${kit.sku}-${index}`} className={`grid grid-cols-[80px_1fr] gap-x-5 items-top px-1 ${ targetedKits?.includes( kit.sku.toLocaleLowerCase() ) && 'bg-yellow-100' }`}>
                 
                 <Kit kit={kit} />
                 

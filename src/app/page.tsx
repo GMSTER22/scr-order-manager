@@ -40,13 +40,9 @@ export default function Page() {
 
     if ( event.keyCode === ENTER_KEY_CODE ) {
 
-      const kits = event.target.value.split( ',' ).filter( kit => {
+      const kits = event.target.value.split( ',' ).filter( kit => kit.trim().toLocaleLowerCase() );
 
-        if ( ! isNaN( kit ) ) return kit.trim();
-
-      } );
-
-      const result: Array<OrderType> = orders.filter( order => order.kits.some( kit => kits.includes( kit.sku ) ) );
+      const result: Array<OrderType> = orders.filter( order => order.kits.some( kit => kits.includes( kit.sku.toLocaleLowerCase() ) ) );
 
       setFilteredOrders( result );
 
@@ -101,7 +97,7 @@ export default function Page() {
     if ( cachedOrders && ! isCachedOlderThanOneHour ) {
 
       setLoading( true );
-      
+
       setOrders( cachedOrders.orders );
       
       setMetadata( cachedOrders.metadata );
