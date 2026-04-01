@@ -78,11 +78,11 @@ export async function GET() {
 
         kits: lineItems.map( item => ( {
 
-          sku: item.physicalProperties.sku,
+          sku: item.physicalProperties?.sku,
 
-          name: item.productName.original,
+          name: item.productName?.original,
 
-          quantity: item.quantity
+          quantity: item?.quantity
 
         } ) )
 
