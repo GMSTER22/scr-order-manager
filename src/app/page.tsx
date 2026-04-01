@@ -42,7 +42,7 @@ export default function Page() {
 
       const kits = event.target.value.split( ',' ).filter( kit => kit.trim().toLocaleLowerCase() );
 
-      const result: Array<OrderType> = orders.filter( order => order.kits.some( kit => kits.includes( kit.sku.toLocaleLowerCase() ) ) );
+      const result: Array<OrderType> = orders.filter( order => order.kits.some( kit => kits.includes( kit.sku?.toLocaleLowerCase() ) ) );
 
       setFilteredOrders( result );
 
