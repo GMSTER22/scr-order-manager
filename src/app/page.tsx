@@ -40,7 +40,7 @@ export default function Page() {
 
     if ( event.keyCode === ENTER_KEY_CODE ) {
 
-      const kits = event.target.value.split( ',' ).filter( kit => kit.trim().toLocaleLowerCase() );
+      const kits = event.target.value.split( ',' ).map( kit => kit.trim().toLocaleLowerCase() );
 
       const result: Array<OrderType> = orders.filter( order => order.kits.some( kit => kits.includes( kit.sku?.toLocaleLowerCase() ) ) );
 
